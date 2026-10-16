@@ -41,5 +41,5 @@ for klucz, wartosci in lista_par.items():
 print("Lista pokolorowanych wierzchołków (nr wierzchołka: kolor): ")
 for klucz, wartosc in lista_pokolorwanych.items():
     print(f"{klucz}: {wartosc}")
-
+print(f"Ilosc kolorow: {max(lista_pokolorwanych.values())}")
 print(f"Czas działania algorytmu: {czas:.3f} ms")
