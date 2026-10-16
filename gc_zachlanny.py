@@ -1,7 +1,14 @@
+import argparse
+import time
+
+parser = argparse.ArgumentParser(description="Zachłanne kolorowanie grafu")
+parser.add_argument("plik", nargs="?", default="dane.txt", help="plik wejściowy z grafem (domyślnie dane.txt)")
+args = parser.parse_args()
+
 lista_par = {}
 lista_pokolorwanych = {}
-
-with open("dane.txt", "r") as plik:
+print(f"Czytanie pliku {args.plik}")
+with open(args.plik, "r") as plik:
     ilosc = int(plik.readline().strip().split(" ")[0])
     for i in range(1, ilosc+1):
         lista_par[i] = []
@@ -13,8 +20,8 @@ with open("dane.txt", "r") as plik:
         if wartosc not in lista_par[klucz]:
             lista_par[klucz].append(wartosc)
         if klucz not in lista_par[wartosc]:
-            lista_par[wartosc].append(klucz)    
-
+            lista_par[wartosc].append(klucz)
+start = time.perf_counter()
 for i in lista_par.keys():
     if lista_pokolorwanych[i] == 0:
         zajete_kolory = []
@@ -26,7 +33,7 @@ for i in lista_par.keys():
         while kolor in zajete_kolory:
             kolor += 1
         lista_pokolorwanych[i] = kolor
-
+czas = (time.perf_counter() - start) * 1000
 print("Lista połączeń dla każdego wierzchołka: ")
 for klucz, wartosci in lista_par.items():
     print(f"{klucz}: {wartosci}")
@@ -34,4 +41,5 @@ for klucz, wartosci in lista_par.items():
 print("Lista pokolorowanych wierzchołków (nr wierzchołka: kolor): ")
 for klucz, wartosc in lista_pokolorwanych.items():
     print(f"{klucz}: {wartosc}")
-    
+
+print(f"Czas działania algorytmu: {czas:.3f} ms")
