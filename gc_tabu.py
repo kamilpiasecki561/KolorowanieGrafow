@@ -31,11 +31,21 @@ def konflikty(kolory):
 
 start = time.perf_counter()
 
-# Rozwiązanie startowe: losowe kolorowanie k = (maks. stopień + 1) kolorami,
-# bo tyle kolorów zawsze wystarcza do poprawnego pokolorowania grafu
-k = max(len(sasiedzi) for sasiedzi in lista_par.values()) + 1
-kolory = {v: random.randint(1, k) for v in lista_par}
-najlepsze = None
+# Rozwiązanie startowe wyznaczone algorytmem zachłannym
+kolory = {v: 0 for v in lista_par}
+for i in lista_par:
+    zajete_kolory = set()
+    for j in lista_par[i]:
+        kolor_sasiada = kolory[j]
+        if kolor_sasiada != 0:
+            zajete_kolory.add(kolor_sasiada)
+    kolor = 1
+    while kolor in zajete_kolory:
+        kolor += 1
+    kolory[i] = kolor
+
+k = max(kolory.values())
+najlepsze = dict(kolory)
 tabu = {}  # (wierzchołek, kolor) -> numer iteracji, do której nie wolno wrócić do tego koloru
 
 # ile[v][c] = ilu sąsiadów wierzchołka v ma kolor c
